@@ -16,27 +16,53 @@ def index():
     
     entries = get_all_entries()
     return render_template_string("""
-        <h1>Diary</h1>
-        
-        <!-- Form to add a new entry -->
-        <form method="post">
-            <h2>Add Entry</h2>
-            <textarea name="content" rows="10" cols="50" required></textarea><br>
-            <button type="submit" name="add_entry">Add Entry</button>
-        </form>
-        
-        <!-- Form to delete entries by date -->
-        <form method="post">
-            <h2>Delete Entry by Date</h2>
-            <input type="date" name="date" required><br>
-            <button type="submit" name="delete_date">Delete Entry</button>
-        </form>
-        
-        <!-- Display all entries -->
-        <h2>Diary Entries</h2>
-        {% for entry in entries %}
-            <p><strong>{{ entry[0] }}</strong><br>{{ entry[1]|safe }}</p>
-        {% endfor %}
+        <html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                }
+                .card {
+                    background-color: #ffffe0; /* Light yellow background */
+                    border-radius: 10px; /* Rounded corners */
+                    padding: 15px;
+                    margin-bottom: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+                textarea {
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Diary</h1>
+            
+            <!-- Form to add a new entry -->
+            <form method="post">
+                <h2>Add Entry</h2>
+                <textarea name="content" rows="10" cols="50" required></textarea><br>
+                <button type="submit" name="add_entry">Add Entry</button>
+            </form>
+            
+            <!-- Form to delete entries by date -->
+            <form method="post">
+                <h2>Delete Entry by Date</h2>
+                <input type="date" name="date" required><br>
+                <button type="submit" name="delete_date">Delete Entry</button>
+            </form>
+            
+            <!-- Display all entries -->
+            <h2>Diary Entries</h2>
+            {% for entry in entries %}
+                <div class="card">
+                    <p><strong>{{ entry[0] }}</strong></p>
+                    <p>{{ entry[1]|safe }}</p>
+                </div>
+            {% endfor %}
+        </body>
+        </html>
     """, entries=[(date, content.replace('\n', '<br>')) for date, content in entries])
 
 def add_entry(content):
@@ -64,4 +90,3 @@ def get_all_entries():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
-
