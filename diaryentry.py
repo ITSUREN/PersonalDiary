@@ -113,7 +113,7 @@ def delete_entry(date):
 def get_all_entries():
     conn = sqlite3.connect('diary.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT date, content FROM entries')
+    cursor.execute('SELECT date, content FROM entries ORDER BY date DESC')
     entries = cursor.fetchall()
     conn.close()
     return entries
